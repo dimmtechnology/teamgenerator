@@ -50,6 +50,22 @@
             border-radius: 10px;
             max-width: 300px;
         }
+        .number {
+            display: inline-block;
+            margin: 0 5px;
+            font-size: 1.5rem;
+            color: #32cd32;
+            animation: bounce 1s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -98,7 +114,10 @@
             result.forEach((team, index) => {
                 const div = document.createElement('div');
                 div.className = 'team';
-                div.innerHTML = `<h3>Team ${index + 1}</h3><p>${team.join(', ')}</p>`;
+
+                const numbers = team.map(num => `<span class="number">${num}</span>`).join('');
+                div.innerHTML = `<h3>Team ${index + 1}</h3><p>${numbers}</p>`;
+
                 output.appendChild(div);
             });
         });
