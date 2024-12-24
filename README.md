@@ -1,2 +1,2 @@
 # teamgenerator
-Tem Generator
+Team Generator
