@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ff6347;
+            font-size: 3rem;
+        }
+        form {
+            margin: 20px auto;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #32cd32;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2e8b57;
+        }
+        .team {
+            background-color: #ffebcd;
+            border: 2px dashed #ff6347;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 10px;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Team Generator</h1>
+    <form id="teamForm">
+        <label for="students">Number of Students:</label><br>
+        <input type="number" id="students" required min="1"><br>
+
+        <label for="teams">Number of Teams:</label><br>
+        <input type="number" id="teams" required min="1"><br>
+
+        <button type="submit">Generate Teams</button>
+    </form>
+
+    <div id="output"></div>
+
+    <script>
+        document.getElementById('teamForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const students = parseInt(document.getElementById('students').value);
+            const teams = parseInt(document.getElementById('teams').value);
+            const output = document.getElementById('output');
+
+            output.innerHTML = '';
+
+            if (students < teams) {
+                output.innerHTML = '<p style="color: red;">Number of students must be greater than or equal to number of teams.</p>';
+                return;
+            }
+
+            const teamList = Array.from({ length: students }, (_, i) => i + 1);
+            teamList.sort(() => Math.random() - 0.5);
+
+            const teamSize = Math.floor(students / teams);
+            let extra = students % teams;
+
+            const result = [];
+
+            for (let i = 0; i < teams; i++) {
+                const size = teamSize + (extra > 0 ? 1 : 0);
+                result.push(teamList.splice(0, size));
+                if (extra > 0) extra--;
+            }
+
+            result.forEach((team, index) => {
+                const div = document.createElement('div');
+                div.className = 'team';
+                div.innerHTML = `<h3>Team ${index + 1}</h3><p>${team.join(', ')}</p>`;
+                output.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>
